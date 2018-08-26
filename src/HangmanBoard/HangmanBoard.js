@@ -8,23 +8,34 @@ export default class HangmanBoard extends Component {
     }
 
     this.getWord = this.getWord.bind(this)
+    this.getARandomWord = this.getARandomWord.bind(this)
   }
 
   getWord (arr){
-    debugger;
     const randomIndex = Math.floor(Math.random() * (arr.length + 1));
     return arr[randomIndex];
   }
 
-  componentDidMount() {
-    debugger;
-    const words = this.props.words;
-    const randomWord = this.getWord(words)
-    console.log('inside of componentDidMount- hangman: ', words)
-    this.setState({
-      secretWord: randomWord
-    })
+  getARandomWord(arr){
+    const randomIndex = Math.floor(Math.random() * (arr.length+1));
+    return arr[randomIndex];
   }
+
+componentDidMount() {
+  fetch('http://app.linkedin-reach.io/words')
+  .then(response => response.text())
+  .then( wordList => {
+    const wordsArr = JSON.stringify(wordList).split('\\n');
+    const words = [];
+    for(let i = 0; i < 10; i++) {
+      const randomWord = this.getARandomWord(wordsArr)
+      words.push(randomWord)
+    }
+    this.setState({
+      secretWord: this.getWord(words)
+    });
+  })
+}
 
   render() {
     debugger;
@@ -32,9 +43,6 @@ export default class HangmanBoard extends Component {
       <div>
         <p>inside of HangmanBoard:</p>
         <p>random word: {this.state.secretWord}</p>
-        {/* {words.map((word, i) => {
-          return <p key={i}>{i+1}: {word}</p>
-        })} */}
       </div>
     )
   }
