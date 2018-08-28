@@ -38,7 +38,7 @@ class App extends Component {
       <div className="App">
         <ScoreBoard />
         <HangmanBoard
-          words={this.state.dictionary}
+          dictionary={this.state.dictionary}
         />
       </div>
     );

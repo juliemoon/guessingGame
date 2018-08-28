@@ -9,7 +9,7 @@ export default class Letter extends Component {
   }
   render() {
     return (
-      <div>
+      <span>
         {
           this.state.showLetter ?
             <button onClick={() => {
@@ -19,7 +19,7 @@ export default class Letter extends Component {
             :
             <p>X</p>
         }
-      </div>
+      </span>
     )
   }
 }

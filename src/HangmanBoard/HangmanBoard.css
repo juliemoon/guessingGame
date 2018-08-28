@@ -1,0 +1,7 @@
+.hide {
+  display: none;
+}
+
+.secretWordContainer {
+  border: 1px solid red;
+}

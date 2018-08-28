@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './HangmanBoard.css';
 import alphabet from '../Utils/alphabet';
 import Letter from '../Letter/Letter';
 import TrackGuess from '../TrackGuess/TrackGuess';
@@ -23,15 +23,15 @@ export default class HangmanBoard extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.words.length < this.props.words.length) {
+    if (prevProps.dictionary.length < this.props.dictionary.length) {
       this.setState({
-        secretWord: this.getARandomWord(this.props.words)
+        secretWord: this.getARandomWord(this.props.dictionary)
       })
     }
   }
 
   makeGuess(letter) {
-    if (this.state.secretWord.includes(letter.toLowerCase())) {
+    if (this.state.secretword && this.state.secretWord.includes(letter.toLowerCase())) {
       return true
     }
     this.setState({
@@ -59,8 +59,9 @@ export default class HangmanBoard extends Component {
                 {
                   this.state.secretWord && this.state.secretWord.split('').map((letter, i) => {
                     return (
-                      <p key={letter + i} className="hidden">{letter}</p>
-
+                      <div className="secretWordContainer">
+                      <span key={letter + i} className="hide">{letter}</span>
+                      </div>
                     )
                   })
                 }

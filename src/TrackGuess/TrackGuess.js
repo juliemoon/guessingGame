@@ -7,13 +7,18 @@ const TrackGuess = (props) => {
       {
         props.countGuess < 6 ?
           <div>
-            {
+            your incorrect guesses:
+            <p>{props.incorrectGuesses}</p>
+            {/* {
               props.incorrectGuesses && props.incorrectGuesses.map((letter, i) => {
-                return <p key={letter}> your incorrectly guessed: {letter}</p>
+                return <p key={letter}>{letter}</p>
               })
-            }
+            } */}
           </div> :
-        <p>out of guesses! Here is the secret word: {props.secretWord}</p>
+          <div>
+            <p>out of guesses! Here is the secret word: {props.secretWord}</p>
+            <p>here are the incorrect words you chose: {props.incorrectGuesses}</p>
+          </div>
       }
 
     </div>
