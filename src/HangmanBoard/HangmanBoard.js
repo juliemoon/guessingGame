@@ -31,7 +31,7 @@ export default class HangmanBoard extends Component {
   }
 
   makeGuess(letter) {
-    if (this.state.secretword && this.state.secretWord.includes(letter.toLowerCase())) {
+    if (this.state.secretWord.includes(letter)) {
       return true
     }
     this.setState({
@@ -60,7 +60,7 @@ export default class HangmanBoard extends Component {
                   this.state.secretWord && this.state.secretWord.split('').map((letter, i) => {
                     return (
                       <div className="secretWordContainer">
-                      <span key={letter + i} className="hide">{letter}</span>
+                      <span key={letter + i}>{letter}</span>
                       </div>
                     )
                   })

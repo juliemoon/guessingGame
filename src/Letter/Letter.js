@@ -13,7 +13,7 @@ export default class Letter extends Component {
         {
           this.state.showLetter ?
             <button onClick={() => {
-              this.props.makeGuess(this.props.letter)
+              this.props.makeGuess(this.props.letter.toLowerCase())
               this.setState({ showLetter: false })
             }}>{this.props.letter}</button>
             :
