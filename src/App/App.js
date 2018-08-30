@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import HangmanBoard from '../HangmanBoard/HangmanBoard';
-import ScoreBoard from '../ScoreBoard/ScoreBoard';
+
 
 class App extends Component {
   constructor(props) {
@@ -36,7 +36,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <ScoreBoard />
         <HangmanBoard
           dictionary={this.state.dictionary}
         />

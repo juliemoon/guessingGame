@@ -1,19 +1,15 @@
 import React from 'react';
 
 const TrackGuess = (props) => {
-  // console.log('props inside of TrackGuess>>>>>>', props)
   return (
     <div>
+      <p>Tracking incorrect guesses: you have {6 - props.countGuess} left </p>
       {
         props.countGuess < 6 ?
           <div>
             your incorrect guesses:
             <p>{props.incorrectGuesses}</p>
-            {/* {
-              props.incorrectGuesses && props.incorrectGuesses.map((letter, i) => {
-                return <p key={letter}>{letter}</p>
-              })
-            } */}
+
           </div> :
           <div>
             <p>out of guesses! Here is the secret word: {props.secretWord}</p>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './HangmanBoard.css';
 import alphabet from '../Utils/alphabet';
-import Letter from '../Letter/Letter';
+import Button from '../Buttons/Button';
 import TrackGuess from '../TrackGuess/TrackGuess';
+import Letter from '../Letter/Letter';
+import ScoreBoard from '../ScoreBoard/ScoreBoard';
 
 export default class HangmanBoard extends Component {
   constructor(props) {
@@ -10,11 +12,15 @@ export default class HangmanBoard extends Component {
     this.state = {
       secretWord: '',
       countGuess: 0,
-      incorrectGuesses: []
+      incorrectGuesses: [],
+      matched: new Set(),
+      playerFoundAllLettersInSW: false
     }
 
     this.getARandomWord = this.getARandomWord.bind(this)
     this.makeGuess = this.makeGuess.bind(this)
+    this.getScoreBoard = this.getScoreBoard.bind(this)
+    this.listener = this.listener.bind(this)
   }
 
   getARandomWord(arr) {
@@ -22,29 +28,55 @@ export default class HangmanBoard extends Component {
     return arr[randomIndex];
   }
 
+  // componentDidMount dictionary is undefined because render happens in order but not componentDidMount
+
   componentDidUpdate(prevProps) {
-    if (prevProps.dictionary.length < this.props.dictionary.length) {
+    if (!prevProps.dictionary.length && this.props.dictionary.length) {
       this.setState({
         secretWord: this.getARandomWord(this.props.dictionary)
       })
     }
   }
 
+  getScoreBoard() {
+    const secretWordLetterSet = new Set(this.state.secretWord)
+    const lengthOfMatchedLetters = this.state.matched.size
+    const playerFoundAllLettersInSW = secretWordLetterSet.size === lengthOfMatchedLetters
+    return (
+      (this.state.countGuess === 6 || playerFoundAllLettersInSW) ? <ScoreBoard incorrectGuesses={this.state.incorrectGuesses} /> : null
+    )
+  }
+
   makeGuess(letter) {
     if (this.state.secretWord.includes(letter)) {
-      return true
+      this.setState({
+        matched: this.state.matched.add(letter)
+      })
+      this.listener(this.state.matched.size)
+    } else {
+      this.setState({
+        incorrectGuesses: [...this.state.incorrectGuesses, letter],
+        countGuess: this.state.countGuess + 1
+      })
     }
-    this.setState({
-      incorrectGuesses: [...this.state.incorrectGuesses, letter],
-      countGuess: this.state.countGuess + 1
-    })
-    return false
+  }
+
+  listener(size) {
+    const secretWordLetterSet = new Set(this.state.secretWord)
+    const lengthOfMatchedLetters = size
+    if (secretWordLetterSet.size === lengthOfMatchedLetters) {
+      this.setState({ playerFoundAllLettersInSW: true })
+    }
   }
 
   render() {
     return (
       <div>
-        <p>Tracking incorrect guesses:</p>
+        {
+          (this.state.countGuess === 6 || this.state.playerFoundAllLettersInSW) ? this.getScoreBoard() : null
+        }
+        {/* <p>Tracking incorrect guesses: you have {6 - this.state.countGuess} left </p> */}
+
         <TrackGuess
           incorrectGuesses={this.state.incorrectGuesses}
           countGuess={this.state.countGuess}
@@ -55,24 +87,21 @@ export default class HangmanBoard extends Component {
           {
             this.state.secretWord === '' ?
               <p>Retrieving word</p> :
-              <div>
-                {
-                  this.state.secretWord && this.state.secretWord.split('').map((letter, i) => {
-                    return (
-                      <div className="secretWordContainer">
-                      <span key={letter + i}>{letter}</span>
-                      </div>
-                    )
-                  })
+
+              this.state.secretWord && this.state.secretWord.split('').map((letter, i) => {
+                let letterToShow = letter
+                if (!this.state.matched.has(letter)) {
+                  letterToShow = '_'
                 }
-              </div>
+                return <Letter matched={this.state.matched} letter={letterToShow} key={i} />
+              })
           }
         </div>
-        {/* mapping over to create letter component */}
-        <div className="alphabet_container">
+
+        <div className="alphabet_buttons">
           {
             alphabet.map((letter, i) => {
-              return <Letter
+              return <Button
                 key={i}
                 letter={letter}
                 makeGuess={this.makeGuess} />
@@ -83,3 +112,4 @@ export default class HangmanBoard extends Component {
     )
   }
 }
+
