@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+button {
+  padding: 5px;
+  border: 1px solid #004c7d;
+  font-family: 'Roboto', sans-serif;
+  color: #004c7d;
+  border-radius: 2px;
+  background-color: #fff;
+  font-size: 1em;
+}
+
+button:hover:not(:disabled) {
+  color: #fff;
+  background-color: #004c7d;
+  transition: 0.2s;
+}
+
+button:disabled {
+  opacity: 0.35; 
+}

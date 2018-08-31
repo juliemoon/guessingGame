@@ -1,14 +1,21 @@
 import React from 'react';
+import './ScoreBoard.css';
 
 const ScoreBoard = (props) => {
   let winner = '';
-  if(props.incorrectGuesses.length === 6){
-    winner="computer"
+  if(props.incorrectGuesses.length === 6) {
+    winner="COMPUTER"
   } else {
-    winner="player"
+    winner="PLAYER"
   }
 
-  return <h1>Winner: {winner}</h1>
+  return (
+    <div id="winner">
+      <p>
+        <span role="img" aria-label="cool">😎</span> &nbsp; Winner: {winner}
+      </p>
+    </div>
+  )
  
 }
 export default ScoreBoard;

@@ -1,4 +1,5 @@
-span {
+.letter {
   margin-right: 5px;
-  font-size: 25px;
+  font-size: 35px;
+  color: #004b7c;
 }

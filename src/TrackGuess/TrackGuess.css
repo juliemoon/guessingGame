@@ -1,0 +1,27 @@
+#thinkingFace {
+  font-size: 1.3em;
+}
+
+#guesses {
+  font-size: 1.3em;
+  color: #004b7c;
+  vertical-align: top;
+}
+
+#incorrectGuesses {
+  font-size: 1.3em;
+  color: #0084bf;
+}
+
+#srunchedFace {
+  font-size: 1.3em;
+}
+
+#secretWord {
+  font-size: 1.3em;
+  color: #0084bf;
+}
+
+.finger {
+  font-size: 1.3em;
+}

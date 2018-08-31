@@ -36,9 +36,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <HangmanBoard
-          dictionary={this.state.dictionary}
-        />
+        <header>
+          <h1 className="title"> Hangman game made with React</h1>
+        </header>
+        <main>
+          <HangmanBoard
+            dictionary={this.state.dictionary}
+          />
+        </main>
       </div>
     );
   }

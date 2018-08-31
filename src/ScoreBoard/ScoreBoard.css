@@ -1,0 +1,6 @@
+#winner {
+  display: grid;
+  justify-content: center;
+  font-size: 2em;
+  color: #0084bf;
+}

@@ -21,6 +21,7 @@ export default class HangmanBoard extends Component {
     this.makeGuess = this.makeGuess.bind(this)
     this.getScoreBoard = this.getScoreBoard.bind(this)
     this.listener = this.listener.bind(this)
+    this.gameEnds = this.gameEnds.bind(this)
   }
 
   getARandomWord(arr) {
@@ -29,22 +30,30 @@ export default class HangmanBoard extends Component {
   }
 
   // componentDidMount dictionary is undefined because render happens in order but not componentDidMount
-
   componentDidUpdate(prevProps) {
-    if (!prevProps.dictionary.length && this.props.dictionary.length) {
+    if (!prevProps.secretWord && !prevProps.dictionary.length && this.props.dictionary.length) {
       this.setState({
         secretWord: this.getARandomWord(this.props.dictionary)
       })
     }
   }
 
-  getScoreBoard() {
+  gameEnds() {
     const secretWordLetterSet = new Set(this.state.secretWord)
     const lengthOfMatchedLetters = this.state.matched.size
     const playerFoundAllLettersInSW = secretWordLetterSet.size === lengthOfMatchedLetters
-    return (
-      (this.state.countGuess === 6 || playerFoundAllLettersInSW) ? <ScoreBoard incorrectGuesses={this.state.incorrectGuesses} /> : null
-    )
+    const theGameIsOver = this.state.countGuess === 6 || playerFoundAllLettersInSW
+    return theGameIsOver
+  }
+
+  getScoreBoard() {
+    const theGameHasEnded = this.gameEnds()
+
+    if (theGameHasEnded) {
+      return <ScoreBoard incorrectGuesses={this.state.incorrectGuesses} />
+    } else {
+      return null
+    }
   }
 
   makeGuess(letter) {
@@ -65,17 +74,20 @@ export default class HangmanBoard extends Component {
     const secretWordLetterSet = new Set(this.state.secretWord)
     const lengthOfMatchedLetters = size
     if (secretWordLetterSet.size === lengthOfMatchedLetters) {
-      this.setState({ playerFoundAllLettersInSW: true })
+      this.setState({
+        playerFoundAllLettersInSW: true
+      })
     }
   }
 
   render() {
+    const isTheGameOver = this.gameEnds()
     return (
-      <div>
+      <div className="game_container">
+
         {
           (this.state.countGuess === 6 || this.state.playerFoundAllLettersInSW) ? this.getScoreBoard() : null
         }
-        {/* <p>Tracking incorrect guesses: you have {6 - this.state.countGuess} left </p> */}
 
         <TrackGuess
           incorrectGuesses={this.state.incorrectGuesses}
@@ -83,10 +95,20 @@ export default class HangmanBoard extends Component {
           secretWord={this.state.secretWord}
         />
 
-        <div>
+        <div id="secretWord">
           {
             this.state.secretWord === '' ?
-              <p>Retrieving word</p> :
+              <div className="loading">
+                <p>Retrieving word</p>
+
+                <div className="loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+
+              :
 
               this.state.secretWord && this.state.secretWord.split('').map((letter, i) => {
                 let letterToShow = letter
@@ -98,16 +120,23 @@ export default class HangmanBoard extends Component {
           }
         </div>
 
-        <div className="alphabet_buttons">
-          {
-            alphabet.map((letter, i) => {
-              return <Button
-                key={i}
-                letter={letter}
-                makeGuess={this.makeGuess} />
-            })
-          }
-        </div>
+        {
+          !isTheGameOver ?
+            <div className="alphabet_buttons">
+              {
+                alphabet.map((letter, i) => {
+                  return <Button
+                    key={i}
+                    letter={letter}
+                    makeGuess={this.makeGuess}
+                  />
+                })
+              }
+            </div>
+            :
+            null  
+        }
+        
       </div>
     )
   }

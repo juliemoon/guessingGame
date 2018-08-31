@@ -1,6 +1,70 @@
-
-.show {
-  /* display: inline-block; */
-  border: 1px solid red;
-  padding: 10px;
+.alphabet_buttons {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(auto,100px));
+  grid-gap: 15px;
+  margin-top: 30px;
 }
+
+#secretWord {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  grid-gap: 15px;
+}
+
+.loading {
+  display: grid;
+  justify-content: center;
+}
+.loading p {
+  font-size: 1.5em;
+  color: rgba(95, 89, 89, 0.6);
+}
+
+.loader {
+  text-align: center;
+}
+
+.loader span{
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background-color: #0084bf;
+  margin: 5px 5px;
+}
+
+.loader span:nth-child(1){
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.loader span:nth-child(2){
+  animation: bounce 1s ease-in-out 0.33s infinite;
+}
+
+.loader span:nth-child(3){
+  animation: bounce 1s ease-in-out 0.66s infinite;
+}
+
+@keyframes bounce{
+  0%, 75%, 100%{
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  25%{
+    -webkit-transform: translateY(-20px);
+    -ms-transform: translateY(-20px);
+    -o-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+}
+
+.alphabet_buttons {
+  margin-top: 90px;
+  margin-bottom: 30px;
+}
+
